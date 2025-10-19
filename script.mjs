@@ -6,6 +6,24 @@
 
 import { countUsers } from "./common.mjs";
 
+const header = document.createElement("header");
+
+// create title
+const title = document.createElement("h1");
+title.innerText = "Music Data";
+
+// create dropdown
+const userSelectLabel = document.createElement("label");
+const userSelect = document.createElement("select");
+const userOption = document.createElement("option");
+userOption.textContent = "Select User"
+userSelect.append(userOption);
+userSelectLabel.append(userSelect);
+
+header.append(title);
+header.append(userSelectLabel);
+
 window.onload = function () {
-  document.querySelector("body").innerText = `There are ${countUsers()} users`;
+  // document.querySelector("body").innerText = `There are ${countUsers()} users`;
+  document.querySelector("body").append(header);
 };
