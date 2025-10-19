@@ -6,24 +6,60 @@
 
 import { countUsers } from "./common.mjs";
 
+// --- HEADER ---
 const header = document.createElement("header");
+header.className = "header";
 
 // create title
 const title = document.createElement("h1");
+title.className = "title";
 title.innerText = "Music Data";
 
 // create dropdown
 const userSelectLabel = document.createElement("label");
 const userSelect = document.createElement("select");
 const userOption = document.createElement("option");
-userOption.textContent = "Select User"
+// More options to be added
+userOption.textContent = "Select User";
 userSelect.append(userOption);
 userSelectLabel.append(userSelect);
 
 header.append(title);
 header.append(userSelectLabel);
 
+// --- MAIN ---
+const main = document.createElement("main");
+const questionDataContainer = document.createElement("div");
+questionDataContainer.className = "container";
+
+// To be added to style file
+questionDataContainer.style.display = "flex";
+questionDataContainer.style.gap = "25px";
+
+const question = document.createElement("p");
+
+// TODO -- to be done dynamically 
+question.className = "question";
+question.textContent = "Some question here";
+
+const output = document.createElement("p");
+output.className = "question";
+output.textContent = "Some output information here";
+
+questionDataContainer.append(question);
+questionDataContainer.append(output);
+main.append(questionDataContainer);
+// const userSelect = document.createElement("select");
+// const userOption = document.createElement("option");
+
+// --- Footer ---
+const footer = document.createElement("footer");
+const footerContent = document.createElement("p");
+footerContent.textContent = "Rashaad Ebrahim - 2025";
+footer.append(footerContent);
+
 window.onload = function () {
-  // document.querySelector("body").innerText = `There are ${countUsers()} users`;
   document.querySelector("body").append(header);
+  document.querySelector("body").append(main);
+  document.querySelector("body").append(footer);
 };
