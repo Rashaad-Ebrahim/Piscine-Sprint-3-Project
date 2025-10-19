@@ -1,0 +1,19 @@
+{
+  "name": "piscine-sprint-3-project",
+  "version": "1.0.0",
+  "description": "My implementation of the Music Data Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rashaad-Ebrahim/Piscine-Sprint-3-Project.git"
+  },
+  "author": "Rashaad Ebrahim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rashaad-Ebrahim/Piscine-Sprint-3-Project/issues"
+  },
+  "homepage": "https://github.com/Rashaad-Ebrahim/Piscine-Sprint-3-Project#readme"
+}
