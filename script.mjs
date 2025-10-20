@@ -28,7 +28,7 @@ const userSelectLabel = createElement("label", {
   textContent: "Select Listener: ",
 });
 
-const userSelect = createElement("select", { id: userSelect });
+const userSelect = createElement("select", { id: "userSelect" });
 
 const userOption = createElement("option", {
   textContent: "Select User",
