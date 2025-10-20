@@ -1,26 +1,45 @@
-// This is a placeholder file which shows how you can access functions defined in other files.
-// It can be loaded into index.html.
-// You can delete the contents of the file once you have understood how it works.
-// Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
-// You can't open the index.html file using a file:// URL.
+// --- Helper functions ---
+function createElement(tag, options = {}) {
+  const element = document.createElement(tag);
 
-import { countUsers } from "./common.mjs";
+  if (options.className) element.className = options.className;
+  if (options.id) element.id = options.id;
+  if (options.textContent) element.textContent = options.textContent;
+  if (options.innerHTML) element.innerHTML = options.innerHTML; // Alternative for HTML content
+  if (options.attributes) {
+    Object.entries(options.attributes).forEach(([key, value]) => {
+      element.setAttribute(key, value);
+    });
+  }
+  return element;
+}
 
 // --- HEADER ---
-const header = document.createElement("header");
-header.className = "header";
+const header = createElement("header", { className: "header" });
 
 // create title
-const title = document.createElement("h1");
-title.className = "title";
-title.innerText = "Music Data";
+const title = createElement("h1", {
+  className: "title",
+  textContent: "Music Data",
+});
 
 // create dropdown
-const userSelectLabel = document.createElement("label");
-const userSelect = document.createElement("select");
-const userOption = document.createElement("option");
+const userSelectLabel = createElement("label", {
+  textContent: "Select Listener: ",
+});
+
+const userSelect = createElement("select", { id: userSelect });
+
+const userOption = createElement("option", {
+  textContent: "Select User",
+  attributes: {
+    value: "",
+    disabled: true,
+    selected: true,
+  },
+});
 // More options to be added
-userOption.textContent = "Select User";
+
 userSelect.append(userOption);
 userSelectLabel.append(userSelect);
 
@@ -28,34 +47,33 @@ header.append(title);
 header.append(userSelectLabel);
 
 // --- MAIN ---
-const main = document.createElement("main");
-const questionDataContainer = document.createElement("div");
-questionDataContainer.className = "container";
+const main = createElement("main");
+const questionDataContainer = createElement("div", { className: "container" });
 
 // To be added to style file
 questionDataContainer.style.display = "flex";
 questionDataContainer.style.gap = "25px";
 
-const question = document.createElement("p");
+const question = createElement("p", {
+  className: "question",
+  textContent: "Some question here",
+});
 
-// TODO -- to be done dynamically 
-question.className = "question";
-question.textContent = "Some question here";
-
-const output = document.createElement("p");
-output.className = "question";
-output.textContent = "Some output information here";
+// TODO -- to be done dynamically
+const output = createElement("p", {
+  className: "question",
+  textContent: "Some output information here",
+});
 
 questionDataContainer.append(question);
 questionDataContainer.append(output);
 main.append(questionDataContainer);
-// const userSelect = document.createElement("select");
-// const userOption = document.createElement("option");
 
 // --- Footer ---
-const footer = document.createElement("footer");
-const footerContent = document.createElement("p");
-footerContent.textContent = "Rashaad Ebrahim - 2025";
+const footer = createElement("footer");
+const footerContent = createElement("p", {
+  textContent: "Rashaad Ebrahim - 2025",
+});
 footer.append(footerContent);
 
 window.onload = function () {
