@@ -1,3 +1,5 @@
+import { getUserIDs } from "./data.mjs";
+
 // --- Helper functions ---
 function createElement(tag, options = {}) {
   const element = document.createElement(tag);
@@ -28,9 +30,10 @@ const userSelectLabel = createElement("label", {
   textContent: "Select Listener: ",
 });
 
-const userSelect = createElement("select", { id: userSelect });
+const userSelect = createElement("select", { id: "userSelect" });
 
-const userOption = createElement("option", {
+// Select user option
+let userOption = createElement("option", {
   textContent: "Select User",
   attributes: {
     value: "",
@@ -38,9 +41,22 @@ const userOption = createElement("option", {
     selected: true,
   },
 });
-// More options to be added
 
 userSelect.append(userOption);
+
+// Populate dropdown
+const users = getUserIDs();
+console.log(users);
+users.forEach((user) => {
+  userOption = createElement("option", {
+    textContent: user,
+    attributes: {
+      value: user,
+    },
+  });
+  userSelect.append(userOption);
+});
+
 userSelectLabel.append(userSelect);
 
 header.append(title);
