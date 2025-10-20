@@ -1,5 +1,5 @@
 export function getUserIDs() {
-  return ["1", "2", "3", "4"];
+  return ["John", "Paul", "Ringo", "George"];
 }
 
 export function getSong(songID) {
