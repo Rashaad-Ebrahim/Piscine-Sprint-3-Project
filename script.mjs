@@ -49,9 +49,9 @@ const users = getUserIDs();
 console.log(users);
 users.forEach((user) => {
   userOption = createElement("option", {
-    textContent: user,
+    textContent: user.name,
     attributes: {
-      value: user,
+      value: user.id,
     },
   });
   userSelect.append(userOption);
