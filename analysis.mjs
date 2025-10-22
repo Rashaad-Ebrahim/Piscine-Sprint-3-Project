@@ -44,7 +44,7 @@ export function getMostListened(listens, type, metric = "count") {
  * @returns {Object|string|null} Song object or null if no listens
  */
 
-export function getFridayNightSongByCount(listens, metric) {
+export function getFridayNightSong(listens, metric) {
   const fridayListens = listens.filter((listen) =>
     isFridayNight(listen.timestamp)
   );
@@ -53,8 +53,10 @@ export function getFridayNightSongByCount(listens, metric) {
   return getMostListened(fridayListens, "song", metric);
 }
 
-// 6. Friday night song by time
 // 7. Longest streak
+export function getLongestStreak(listens) {
+  if (listens.length === 0) return null;
+}
 
 const listens = getListenEvents(4);
 // console.log(getMostListened(listens, "song", "count"));
