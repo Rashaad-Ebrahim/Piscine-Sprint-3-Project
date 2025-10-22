@@ -56,8 +56,35 @@ export function getFridayNightSong(listens, metric) {
 // 7. Longest streak
 export function getLongestStreak(listens) {
   if (listens.length === 0) return null;
+
+  const streaks = [];
+  let currentStreak = { songId: listens[0].song_id, count: 1 };
+
+  for (let i = 1; i < listens.length; i++) {
+    if (listens[i].song_id === currentStreak.songId) {
+      currentStreak.count++;
+    } else {
+      // console.log(currentStreak);
+      streaks.push(currentStreak);
+      currentStreak = { songId: listens[i].song_id, count: 1 };
+    }
+  }
+
+  const streakCounts = streaks.map((s) => s.count)
+  console.log(streakCounts)
+  const maxStreak = Math.max(...streakCounts);
+  const longestStreaks = streaks.filter((s) => s.count === maxStreak);
+  console.log(longestStreaks);
+
+  return longestStreaks.map((streak) => ({
+    song: getSong(streak.songId),
+    count: streak.count,
+  }));
 }
 
-const listens = getListenEvents(4);
+const listens = getListenEvents(2);
 // console.log(getMostListened(listens, "song", "count"));
-console.log(getFridayNightSongByCount(listens, "count"));
+
+const streak = getLongestStreak(listens);
+console.log(streak);
+// console.log(getFridayNightSongByCount(listens, "count"));
