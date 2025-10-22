@@ -1,15 +1,28 @@
 import { getSong, getListenEvents } from "./data.mjs";
 
-// Helper
+// --- Helper functions ---
+
+// Helper function to check if a timestamp is Friday night 5pm to 4am
 function isFridayNight(timestamp) {
   const date = new Date(timestamp);
   const day = date.getDay(); // 0 = Sunday, 5 = Friday
   const hour = date.getHours();
 
-  // Friday 5pm (17) to 11:59pm (23) OR Saturday 12am (0) to 4am (4)
+  // Friday 5pm to 11:59pm OR Saturday 12am to 3:59am
   return (day === 5 && hour >= 17) || (day === 6 && hour < 4);
 }
 
+// Helper function to get unique days from listens
+function getUniqueDays(listens) {
+  const dates = listens.map((listen) =>
+    new Date(listen.timestamp).toDateString()
+  );
+  return [...new Set(dates)];
+}
+
+// --- Core functionality ---
+
+// Most listened
 /**
  * Gets the most listened item (song or artist) by count or time
  * @param {Array} listens - Array of listen event objects
@@ -36,13 +49,14 @@ export function getMostListened(listens, type, metric = "count") {
   return type === "song" ? getSong(topKey) : topKey;
 }
 
+// Most listened on a Friday night
 /**
- * Gets the most listened item (song or artist) by count or time
+ * Gets the most listened song by count or time on a Friday night
  * @param {Array} listens - Array of listen event objects
  * @param {string} [metric="count"] - Metric to use: "count" or "time"
- * @returns {Object|string|null} Song object or null if no listens
+ * @returns {Object|null} Song object or null if no Friday night listens
  */
-export function getFridayNightSong(listens, metric) {
+export function getFridayNightSong(listens, metric = "count") {
   const fridayListens = listens.filter((listen) =>
     isFridayNight(listen.timestamp)
   );
@@ -51,7 +65,7 @@ export function getFridayNightSong(listens, metric) {
   return getMostListened(fridayListens, "song", metric);
 }
 
-// 7. Longest streak
+// Longest streak
 export function getLongestStreak(listens) {
   if (listens.length === 0) return null;
 
@@ -66,6 +80,7 @@ export function getLongestStreak(listens) {
       currentStreak = { songId: listen.song_id, count: 1 };
     }
   });
+  streaks.push(currentStreak);
 
   const maxStreak = Math.max(...streaks.map((s) => s.count));
   const longestStreaks = streaks.filter((s) => s.count === maxStreak);
@@ -76,29 +91,12 @@ export function getLongestStreak(listens) {
   }));
 }
 
-const listens = getListenEvents(1);
-// console.log(getMostListened(listens, "song", "count"));
-
-const streak = getLongestStreak(listens);
-// console.log(streak);
-// console.log(getFridayNightSongByCount(listens, "count"));
-
-function getUniqueDays(listens) {
-  const dates = listens.map((listen) =>
-    new Date(listen.timestamp).toDateString()
-  );
-  return [...new Set(dates)];
-}
-
-// console.log(getUniqueDays(listens));
-
+// Everyday songs
 export function getEverydaySongs(listens) {
-  // get all individual days
   const days = getUniqueDays(listens);
+  if (days.length === 0) return null;
 
-  // add songs to specific dates
   const songsByDay = {};
-
   days.forEach((day) => {
     songsByDay[day] = new Set();
   });
@@ -108,12 +106,8 @@ export function getEverydaySongs(listens) {
     songsByDay[day].add(listen.song_id);
   });
 
-  // -- Find all songs played
-  const allSongs = new Set(listens.map((listen) => listen.song_id));
-  console.log(allSongs);
-
-  // find songs that appear everyday
   const everydaySongs = [];
+  const allSongs = new Set(listens.map((listen) => listen.song_id));
 
   allSongs.forEach((songId) => {
     const isEveryday = days.every((day) => songsByDay[day].has(songId));
@@ -125,9 +119,7 @@ export function getEverydaySongs(listens) {
   return everydaySongs.length > 0 ? everydaySongs : null;
 }
 
-// console.log(getEverydaySongs(listens));
-
-// 9. Top three genres
+// Top three genres
 export function getTopGenres(listens) {
   if (listens.length === 0) return null;
 
@@ -137,9 +129,6 @@ export function getTopGenres(listens) {
     genreCounts[song.genre] = (genreCounts[song.genre] || 0) + 1;
   });
 
-  console.log(genreCounts);
-  console.log(Object.entries(genreCounts));
-
   const sortedTopGenres = Object.entries(genreCounts)
     .sort((a, b) => b[1] - a[1])
     .map((entry) => entry[0])
@@ -147,5 +136,3 @@ export function getTopGenres(listens) {
 
   return sortedTopGenres;
 }
-
-console.log(getTopGenres(listens));
