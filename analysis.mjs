@@ -22,13 +22,31 @@ export function getMostListenedSongByCount(listens) {
   return getSong(topSongId);
 }
 
-const listens = getListenEvents(4);
-const mostListened = getMostListenedSongByCount(listens);
-console.log(mostListened);
-
 // 2. Most listened song by time
+export function getMostListenedSongByTime(listens) {
+  if (listens.length === 0) return null;
+
+  const songTimes = {};
+  listens.forEach((listen) => {
+    const song = getSong(listen.song_id);
+    songTimes[listen.song_id] =
+      (songTimes[listen.song_id] || 0) + song.duration_seconds;
+  });
+  console.log(songTimes);
+  const maxTime = Math.max(...Object.values(songTimes));
+  const topSongId = Object.keys(songTimes).find(
+    (id) => songTimes[id] === maxTime
+  );
+
+  return getSong(topSongId);
+}
+
 // 3. Most listened artist by count
 // 4. Most listened artist by time
 // 5. Friday night song by count
 // 6. Friday night song by time
 // 7. Longest streak
+
+const listens = getListenEvents(1);
+const mostListened = getMostListenedSongByTime(listens);
+console.log(mostListened);
