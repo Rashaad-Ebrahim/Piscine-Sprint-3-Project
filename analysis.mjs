@@ -80,5 +80,36 @@ const listens = getListenEvents(2);
 // console.log(getMostListened(listens, "song", "count"));
 
 const streak = getLongestStreak(listens);
-console.log(streak);
+// console.log(streak);
 // console.log(getFridayNightSongByCount(listens, "count"));
+
+function getUniqueDays(listens) {
+  const dates = listens.map((listen) =>
+    new Date(listen.timestamp).toDateString()
+  );
+  return [...new Set(dates)];
+}
+
+// console.log(getUniqueDays(listens));
+
+export function getEverydaySongs(listens) {
+  // get all individual days
+  const days = getUniqueDays(listens);
+  // add songs to specific dates
+  const songsByDay = {};
+
+  days.forEach((day) => {
+    songsByDay[day] = [];
+  });
+
+  listens.forEach((listen) => {
+    const day = new Date(listen.timestamp).toDateString();
+    songsByDay[day].push(listen.song_id);
+  });
+
+
+  return songsByDay;
+  //
+}
+
+console.log(getEverydaySongs(listens));
