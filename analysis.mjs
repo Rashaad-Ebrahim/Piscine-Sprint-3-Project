@@ -58,6 +58,20 @@ export function getMostListenedArtistByCount(listens) {
 
 
 // 4. Most listened artist by time
+export function getMostListenedArtistByTime(listens) {
+    if (listens.length === 0) return null;
+    
+    const artistTimes = {};
+    listens.forEach(listen => {
+        const song = getSong(listen.song_id);
+        artistTimes[song.artist] = (artistTimes[song.artist] || 0) + song.duration_seconds;
+    });
+    
+    const maxTime = Math.max(...Object.values(artistTimes));
+    return Object.keys(artistTimes).find(artist => artistTimes[artist] === maxTime);
+}
+
+
 // 5. Friday night song by count
 // 6. Friday night song by time
 // 7. Longest streak
