@@ -44,38 +44,62 @@ export function getMostListenedSongByTime(listens) {
 
 // 3. Most listened artist by count
 export function getMostListenedArtistByCount(listens) {
-    if (listens.length === 0) return null;
-    
-    const artistCounts = {};
-    listens.forEach(listen => {
-        const song = getSong(listen.song_id);
-        artistCounts[song.artist] = (artistCounts[song.artist] || 0) + 1;
-    });
-    
-    const maxCount = Math.max(...Object.values(artistCounts));
-    return Object.keys(artistCounts).find(artist => artistCounts[artist] === maxCount);
-}
+  if (listens.length === 0) return null;
 
+  const artistCounts = {};
+  listens.forEach((listen) => {
+    const song = getSong(listen.song_id);
+    artistCounts[song.artist] = (artistCounts[song.artist] || 0) + 1;
+  });
+
+  const maxCount = Math.max(...Object.values(artistCounts));
+  return Object.keys(artistCounts).find(
+    (artist) => artistCounts[artist] === maxCount
+  );
+}
 
 // 4. Most listened artist by time
 export function getMostListenedArtistByTime(listens) {
-    if (listens.length === 0) return null;
-    
-    const artistTimes = {};
-    listens.forEach(listen => {
-        const song = getSong(listen.song_id);
-        artistTimes[song.artist] = (artistTimes[song.artist] || 0) + song.duration_seconds;
-    });
-    
-    const maxTime = Math.max(...Object.values(artistTimes));
-    return Object.keys(artistTimes).find(artist => artistTimes[artist] === maxTime);
+  if (listens.length === 0) return null;
+
+  const artistTimes = {};
+  listens.forEach((listen) => {
+    const song = getSong(listen.song_id);
+    artistTimes[song.artist] =
+      (artistTimes[song.artist] || 0) + song.duration_seconds;
+  });
+
+  const maxTime = Math.max(...Object.values(artistTimes));
+  return Object.keys(artistTimes).find(
+    (artist) => artistTimes[artist] === maxTime
+  );
 }
 
+// Refactored for 1,2,3,4
+export function getMostListened(listens, countBy) {
+  if (listens.length === 0) return null;
+
+  const count = {};
+  listens.forEach((listen) => {
+    const song = getSong(listen.song_id);
+    count[song[countBy]] =
+      (count[song[countBy]] || 0) + song.duration_seconds;
+  });
+
+  const maxTime = Math.max(...Object.values(count));
+  return Object.keys(count).find(
+    (countBy) => count[countBy] === maxTime
+  );
+}
+
+const listens = getListenEvents(1);
+const mostListened = getMostListened(listens, "artist");
+console.log(mostListened);
 
 // 5. Friday night song by count
 // 6. Friday night song by time
 // 7. Longest streak
 
-const listens = getListenEvents(1);
-const mostListened = getMostListenedSongByTime(listens);
-console.log(mostListened);
+// const listens = getListenEvents(1);
+// const mostListened = getMostListenedSongByTime(listens);
+// console.log(mostListened);
