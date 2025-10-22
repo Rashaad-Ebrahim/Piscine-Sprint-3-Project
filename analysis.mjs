@@ -95,21 +95,34 @@ function getUniqueDays(listens) {
 export function getEverydaySongs(listens) {
   // get all individual days
   const days = getUniqueDays(listens);
+
   // add songs to specific dates
   const songsByDay = {};
 
   days.forEach((day) => {
-    songsByDay[day] = [];
+    songsByDay[day] = new Set();
   });
 
   listens.forEach((listen) => {
     const day = new Date(listen.timestamp).toDateString();
-    songsByDay[day].push(listen.song_id);
+    songsByDay[day].add(listen.song_id);
   });
 
+  // -- Find all songs played
+  const allSongs = new Set(listens.map((listen) => listen.song_id));
+  console.log(allSongs);
+  
+  // find songs that appear everyday
+  const everydaySongs = [];
 
-  return songsByDay;
-  //
+  allSongs.forEach((songId) => {
+    const isEveryday = days.every((day) => songsByDay[day].has(songId));
+    if (isEveryday) {
+      everydaySongs.push(getSong(songId));
+    }
+  });
+
+  return everydaySongs.length > 0 ? everydaySongs : null;
 }
 
 console.log(getEverydaySongs(listens));
