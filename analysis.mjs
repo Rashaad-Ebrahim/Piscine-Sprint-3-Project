@@ -1,4 +1,4 @@
-import { getSong, getListenEvents } from "./data.mjs";
+import { getSong } from "./data.mjs";
 
 // --- Helper functions ---
 
