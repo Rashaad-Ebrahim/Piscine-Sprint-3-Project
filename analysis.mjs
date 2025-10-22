@@ -76,7 +76,7 @@ export function getLongestStreak(listens) {
   }));
 }
 
-const listens = getListenEvents(2);
+const listens = getListenEvents(1);
 // console.log(getMostListened(listens, "song", "count"));
 
 const streak = getLongestStreak(listens);
@@ -111,7 +111,7 @@ export function getEverydaySongs(listens) {
   // -- Find all songs played
   const allSongs = new Set(listens.map((listen) => listen.song_id));
   console.log(allSongs);
-  
+
   // find songs that appear everyday
   const everydaySongs = [];
 
@@ -125,4 +125,27 @@ export function getEverydaySongs(listens) {
   return everydaySongs.length > 0 ? everydaySongs : null;
 }
 
-console.log(getEverydaySongs(listens));
+// console.log(getEverydaySongs(listens));
+
+// 9. Top three genres
+export function getTopGenres(listens) {
+  if (listens.length === 0) return null;
+
+  const genreCounts = {};
+  listens.forEach((listen) => {
+    const song = getSong(listen.song_id);
+    genreCounts[song.genre] = (genreCounts[song.genre] || 0) + 1;
+  });
+
+  console.log(genreCounts);
+  console.log(Object.entries(genreCounts));
+
+  const sortedTopGenres = Object.entries(genreCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map((entry) => entry[0])
+    .slice(0, 3);
+
+  return sortedTopGenres;
+}
+
+console.log(getTopGenres(listens));
