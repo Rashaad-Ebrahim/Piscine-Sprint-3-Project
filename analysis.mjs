@@ -17,7 +17,6 @@ function isFridayNight(timestamp) {
  * @param {string} [metric="count"] - Metric to use: "count" or "time"
  * @returns {Object|string|null} Song object, artist name, or null if no listens
  */
-
 export function getMostListened(listens, type, metric = "count") {
   if (listens.length === 0) return null;
 
@@ -43,7 +42,6 @@ export function getMostListened(listens, type, metric = "count") {
  * @param {string} [metric="count"] - Metric to use: "count" or "time"
  * @returns {Object|string|null} Song object or null if no listens
  */
-
 export function getFridayNightSong(listens, metric) {
   const fridayListens = listens.filter((listen) =>
     isFridayNight(listen.timestamp)
@@ -60,21 +58,17 @@ export function getLongestStreak(listens) {
   const streaks = [];
   let currentStreak = { songId: listens[0].song_id, count: 1 };
 
-  for (let i = 1; i < listens.length; i++) {
-    if (listens[i].song_id === currentStreak.songId) {
+  listens.forEach((listen) => {
+    if (listen.song_id === currentStreak.songId) {
       currentStreak.count++;
     } else {
-      // console.log(currentStreak);
       streaks.push(currentStreak);
-      currentStreak = { songId: listens[i].song_id, count: 1 };
+      currentStreak = { songId: listen.song_id, count: 1 };
     }
-  }
+  });
 
-  const streakCounts = streaks.map((s) => s.count)
-  console.log(streakCounts)
-  const maxStreak = Math.max(...streakCounts);
+  const maxStreak = Math.max(...streaks.map((s) => s.count));
   const longestStreaks = streaks.filter((s) => s.count === maxStreak);
-  console.log(longestStreaks);
 
   return longestStreaks.map((streak) => ({
     song: getSong(streak.songId),
