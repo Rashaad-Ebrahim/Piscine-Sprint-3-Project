@@ -75,25 +75,37 @@ export function getMostListenedArtistByTime(listens) {
   );
 }
 
+/**
+ * Gets the most listened item (song or artist) by count or time
+ * @param {Array} listens - Array of listen event objects
+ * @param {string} [type="song"]- Type of item to analyze: "song" or "artist"
+ * @param {string} [metric="count"] - Metric to use: "count" or "time"
+ * @returns {Object|string|null} Song object, artist name, or null if no listens
+ */
+
 // Refactored for 1,2,3,4
-export function getMostListened(listens, countBy) {
+export function getMostListened(listens, type, metric = "count") {
   if (listens.length === 0) return null;
 
-  const count = {};
+  const counts = {};
+
   listens.forEach((listen) => {
     const song = getSong(listen.song_id);
-    count[song[countBy]] =
-      (count[song[countBy]] || 0) + song.duration_seconds;
+    const key = type === "artist" ? song.artist : listen.song_id;
+    const value = metric === "time" ? song.duration_seconds : 1;
+
+    counts[key] = (counts[key] || 0) + value;
   });
 
-  const maxTime = Math.max(...Object.values(count));
-  return Object.keys(count).find(
-    (countBy) => count[countBy] === maxTime
-  );
+  const maxValue = Math.max(...Object.values(counts));
+  const topKey = Object.keys(counts).find((key) => counts[key] === maxValue);
+
+  return type === "song" ? getSong(topKey) : topKey;
 }
 
 const listens = getListenEvents(1);
-const mostListened = getMostListened(listens, "artist");
+const mostListened = getMostListened(listens, "song", "count");
+// const mostListened2 = getMostListened(listens, 'song', 'count');
 console.log(mostListened);
 
 // 5. Friday night song by count

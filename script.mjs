@@ -1,5 +1,5 @@
 import { getUserIDs, getListenEvents } from "./data.mjs";
-import { getMostListenedSongByCount } from "./analysis.mjs";
+import { getMostListenedSongByCount, getMostListened } from "./analysis.mjs";
 
 // --- Helper functions ---
 function createElement(tag, options = {}) {
@@ -20,7 +20,7 @@ function createElement(tag, options = {}) {
 // Display single question
 function displaySingleQuestion(userId) {
   const listens = getListenEvents(userId);
-  const mostListenedSong = getMostListenedSongByCount(listens);
+  const mostListenedSong = getMostListened(listens, "song");
 
   const main = document.querySelector("main");
   main.innerHTML = "";
