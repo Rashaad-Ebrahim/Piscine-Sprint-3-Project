@@ -1,4 +1,5 @@
-import { getUserIDs } from "./data.mjs";
+import { getUserIDs, getListenEvents } from "./data.mjs";
+import { getMostListenedSongByCount, getMostListened } from "./analysis.mjs";
 
 // --- Helper functions ---
 function createElement(tag, options = {}) {
@@ -14,6 +15,27 @@ function createElement(tag, options = {}) {
     });
   }
   return element;
+}
+
+// Display single question
+function displaySingleQuestion(userId) {
+  const listens = getListenEvents(userId);
+  const mostListenedSong = getMostListened(listens, "song");
+
+  const main = document.querySelector("main");
+  main.innerHTML = "";
+
+  if (mostListenedSong) {
+    const result = createElement("p", {
+      textContent: `Most listened song: ${mostListenedSong.artist} - ${mostListenedSong.title}`,
+    });
+    main.append(result);
+  } else {
+    const message = createElement("p", {
+      textContent: "No listening data available.",
+    });
+    main.append(message);
+  }
 }
 
 // --- HEADER ---
@@ -49,12 +71,20 @@ const users = getUserIDs();
 console.log(users);
 users.forEach((user) => {
   userOption = createElement("option", {
-    textContent: user,
+    textContent: user.name,
     attributes: {
-      value: user,
+      value: user.id,
     },
   });
   userSelect.append(userOption);
+});
+
+// userSelect event listener
+userSelect.addEventListener("change", (event) => {
+  const selectedUserId = event.target.value;
+  if (selectedUserId) {
+    displaySingleQuestion(selectedUserId);
+  }
 });
 
 userSelectLabel.append(userSelect);
