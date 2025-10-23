@@ -1,4 +1,4 @@
-import { getUserIDs, getListenEvents, getSong } from "./data.mjs";
+import { getUserIDs, getListenEvents } from "./data.mjs";
 import {
   getMostListened,
   getFridayNightSong,
@@ -68,7 +68,7 @@ function initializePage() {
   // --- FOOTER ---
   const footer = document.createElement("footer");
   const footerContent = document.createElement("p");
-  footerContent.textContent = "Music Data Project";
+  footerContent.textContent = "© 2025 Rashaad Ebrahim - Music Data Project";
   footer.append(footerContent);
 
   // Append everything to body
@@ -131,9 +131,161 @@ function displayUserData(userId) {
     answer.className = "answer";
     answer.textContent = `${mostListenedSongTime.artist} - ${mostListenedSongTime.title}`;
 
-    section.appendChild(question);
-    section.appendChild(answer);
-    questionsContainer.appendChild(section);
+    section.append(question);
+    section.append(answer);
+    questionsContainer.append(section);
+  }
+
+  // Most listened artist by count
+  const mostListenedArtistCount = getMostListened(listens, "artist", "count");
+  if (mostListenedArtistCount) {
+    const section = document.createElement("section");
+    section.className = "question-section";
+
+    const question = document.createElement("h3");
+    question.className = "question";
+    question.textContent = "Most listened artist (count)";
+
+    const answer = document.createElement("p");
+    answer.className = "answer";
+    answer.textContent = mostListenedArtistCount;
+
+    section.append(question);
+    section.append(answer);
+    questionsContainer.append(section);
+  }
+
+  // Most listened artist by time
+  const mostListenedArtistTime = getMostListened(listens, "artist", "time");
+  if (mostListenedArtistTime) {
+    const section = document.createElement("section");
+    section.className = "question-section";
+
+    const question = document.createElement("h3");
+    question.className = "question";
+    question.textContent = "Most listened artist (time)";
+
+    const answer = document.createElement("p");
+    answer.className = "answer";
+    answer.textContent = mostListenedArtistTime;
+
+    section.append(question);
+    section.append(answer);
+    questionsContainer.append(section);
+  }
+
+  // Friday night song by count
+  const fridayNightSongCount = getFridayNightSong(listens, "count");
+  if (fridayNightSongCount) {
+    const section = document.createElement("section");
+    section.className = "question-section";
+
+    const question = document.createElement("h3");
+    question.className = "question";
+    question.textContent = "Friday nights song (count)";
+
+    const answer = document.createElement("p");
+    answer.className = "answer";
+    answer.textContent = `${fridayNightSongCount.artist} - ${fridayNightSongCount.title}`;
+
+    section.append(question);
+    section.append(answer);
+    questionsContainer.append(section);
+  }
+
+  // Friday night song by time
+  const fridayNightSongTime = getFridayNightSong(listens, "time");
+  if (fridayNightSongTime) {
+    const section = document.createElement("section");
+    section.className = "question-section";
+
+    const question = document.createElement("h3");
+    question.className = "question";
+    question.textContent = "Friday nights song (time)";
+
+    const answer = document.createElement("p");
+    answer.className = "answer";
+    answer.textContent = `${fridayNightSongTime.artist} - ${fridayNightSongTime.title}`;
+
+    section.append(question);
+    section.append(answer);
+    questionsContainer.append(section);
+  }
+
+  // Longest streak
+  const longestStreak = getLongestStreak(listens);
+  if (longestStreak && longestStreak.length > 0) {
+    const streakText = longestStreak
+      .map(
+        (streak) =>
+          `${streak.song.artist} - ${streak.song.title} (length: ${streak.count})`
+      )
+      .join(", ");
+
+    const section = document.createElement("section");
+    section.className = "question-section";
+
+    const question = document.createElement("h3");
+    question.className = "question";
+    question.textContent = "Longest streak song";
+
+    const answer = document.createElement("p");
+    answer.className = "answer";
+    answer.textContent = streakText;
+
+    section.append(question);
+    section.append(answer);
+    questionsContainer.append(section);
+  }
+
+  // Every day songs
+  const everydaySongs = getEverydaySongs(listens);
+  if (everydaySongs && everydaySongs.length > 0) {
+    const everydaySongsText = everydaySongs
+      .map((song) => `${song.artist} - ${song.title}`)
+      .join(", ");
+
+    const section = document.createElement("section");
+    section.className = "question-section";
+
+    const question = document.createElement("h3");
+    question.className = "question";
+    question.textContent = "Every day songs";
+
+    const answer = document.createElement("p");
+    answer.className = "answer";
+    answer.textContent = everydaySongsText;
+
+    section.append(question);
+    section.append(answer);
+    questionsContainer.append(section);
+  }
+
+  // Top genres
+  const topGenres = getTopGenres(listens);
+  if (topGenres && topGenres.length > 0) {
+    const genreCount = topGenres.length;
+    const genreLabel =
+      genreCount === 3
+        ? "Top three genres"
+        : genreCount === 2
+        ? "Top two genres"
+        : "Top genre";
+
+    const section = document.createElement("section");
+    section.className = "question-section";
+
+    const question = document.createElement("h3");
+    question.className = "question";
+    question.textContent = `${genreLabel}:`;
+
+    const answer = document.createElement("p");
+    answer.className = "answer";
+    answer.textContent = topGenres.join(", ");
+
+    section.append(question);
+    section.append(answer);
+    questionsContainer.append(section);
   }
 
   main.append(questionsContainer);
