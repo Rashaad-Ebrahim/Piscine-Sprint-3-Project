@@ -104,7 +104,7 @@ function displayUserData(userId) {
     const section = document.createElement("section");
     section.className = "question-section";
 
-    const question = document.createElement("h3");
+    const question = document.createElement("h2");
     question.className = "question";
     question.textContent = "Most listened to song (count)";
 
@@ -123,7 +123,7 @@ function displayUserData(userId) {
     const section = document.createElement("section");
     section.className = "question-section";
 
-    const question = document.createElement("h3");
+    const question = document.createElement("h2");
     question.className = "question";
     question.textContent = "Most listened to song (time)";
 
@@ -142,7 +142,7 @@ function displayUserData(userId) {
     const section = document.createElement("section");
     section.className = "question-section";
 
-    const question = document.createElement("h3");
+    const question = document.createElement("h2");
     question.className = "question";
     question.textContent = "Most listened artist (count)";
 
@@ -161,7 +161,7 @@ function displayUserData(userId) {
     const section = document.createElement("section");
     section.className = "question-section";
 
-    const question = document.createElement("h3");
+    const question = document.createElement("h2");
     question.className = "question";
     question.textContent = "Most listened artist (time)";
 
@@ -180,7 +180,7 @@ function displayUserData(userId) {
     const section = document.createElement("section");
     section.className = "question-section";
 
-    const question = document.createElement("h3");
+    const question = document.createElement("h2");
     question.className = "question";
     question.textContent = "Friday nights song (count)";
 
@@ -199,7 +199,7 @@ function displayUserData(userId) {
     const section = document.createElement("section");
     section.className = "question-section";
 
-    const question = document.createElement("h3");
+    const question = document.createElement("h2");
     question.className = "question";
     question.textContent = "Friday nights song (time)";
 
@@ -225,7 +225,7 @@ function displayUserData(userId) {
     const section = document.createElement("section");
     section.className = "question-section";
 
-    const question = document.createElement("h3");
+    const question = document.createElement("h2");
     question.className = "question";
     question.textContent = "Longest streak song";
 
@@ -248,7 +248,7 @@ function displayUserData(userId) {
     const section = document.createElement("section");
     section.className = "question-section";
 
-    const question = document.createElement("h3");
+    const question = document.createElement("h2");
     question.className = "question";
     question.textContent = "Every day songs";
 
@@ -275,7 +275,7 @@ function displayUserData(userId) {
     const section = document.createElement("section");
     section.className = "question-section";
 
-    const question = document.createElement("h3");
+    const question = document.createElement("h2");
     question.className = "question";
     question.textContent = `${genreLabel}:`;
 
