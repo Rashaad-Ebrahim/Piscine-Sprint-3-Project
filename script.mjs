@@ -16,7 +16,7 @@ function initializePage() {
   const title = document.createElement("h1");
   title.className = "title";
   title.textContent = "Music Data Analysis";
-  header.appendChild(title);
+  header.append(title);
 
   const userSelectLabel = document.createElement("label");
   userSelectLabel.textContent = "Select Listener: ";
@@ -35,7 +35,7 @@ function initializePage() {
   defaultOption.value = "";
   defaultOption.disabled = true;
   defaultOption.selected = true;
-  userSelect.appendChild(defaultOption);
+  userSelect.append(defaultOption);
 
   // Populate dropdown
   const users = getUserIDs();
@@ -43,7 +43,7 @@ function initializePage() {
     const option = document.createElement("option");
     option.textContent = user.name;
     option.value = user.id;
-    userSelect.appendChild(option);
+    userSelect.append(option);
   });
 
   // Event listener for user selection
@@ -54,8 +54,8 @@ function initializePage() {
     }
   });
 
-  userSelectLabel.appendChild(userSelect);
-  header.appendChild(userSelectLabel);
+  userSelectLabel.append(userSelect);
+  header.append(userSelectLabel);
 
   // --- MAIN ---
   const main = document.createElement("main");
@@ -63,7 +63,7 @@ function initializePage() {
   initialMessage.className = "initial-message";
   initialMessage.textContent =
     "Please select a user from the dropdown to view their music data analysis.";
-  main.appendChild(initialMessage);
+  main.append(initialMessage);
 
   // --- FOOTER ---
   const footer = document.createElement("footer");
@@ -72,9 +72,9 @@ function initializePage() {
   footer.appendChild(footerContent);
 
   // Append everything to body
-  document.body.appendChild(header);
-  document.body.appendChild(main);
-  document.body.appendChild(footer);
+  document.body.append(header);
+  document.body.append(main);
+  document.body.append(footer);
 }
 
 // Display all questions for selected user
@@ -88,24 +88,37 @@ function displayUserData(userId) {
     const message = document.createElement("p");
     message.className = "no-data";
     message.textContent = "This user didn't listen to any songs.";
-    main.appendChild(message);
+    main.append(message);
     return;
   }
 
+  // Create container for all questions
+  const questionsContainer = document.createElement("div");
+  questionsContainer.className = "questions-container";
 
+  // --- QUESTIONS ---
 
-  
-  // if (mostListenedSong) {
-  //   const result = createElement("p", {
-  //     textContent: `Most listened song: ${mostListenedSong.artist} - ${mostListenedSong.title}`,
-  //   });
-  //   main.append(result);
-  // } else {
-  //   const message = createElement("p", {
-  //     textContent: "No listening data available.",
-  //   });
-  //   main.append(message);
-  // }
+  // Most listened song by count
+  const mostListenedSongCount = getMostListened(listens, "song", "count");
+  if (mostListenedSongCount) {
+    const section = document.createElement("section");
+    section.className = "question-section";
+
+    const question = document.createElement("h3");
+    question.className = "question";
+    question.textContent = "What was the user's most often listened to song?";
+
+    const answer = document.createElement("p");
+    answer.className = "answer";
+    answer.textContent = `${mostListenedSongCount.artist} - ${mostListenedSongCount.title}`;
+
+    section.append(question);
+    section.append(answer);
+    questionsContainer.append(section);
+  }
+
+  main.append(questionsContainer);
+
 }
 
 window.onload = initializePage;
