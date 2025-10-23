@@ -77,27 +77,35 @@ function initializePage() {
   document.body.appendChild(footer);
 }
 
-// Display single question
-// function displaySingleQuestion(userId) {
-//   const listens = getListenEvents(userId);
-//   const mostListenedSong = getMostListened(listens, "song");
+// Display all questions for selected user
+function displayUserData(userId) {
+  const listens = getListenEvents(userId);
+  const main = document.querySelector("main");
+  main.innerHTML = "";
 
-//   const main = document.querySelector("main");
-//   main.innerHTML = "";
-
-//   if (mostListenedSong) {
-//     const result = createElement("p", {
-//       textContent: `Most listened song: ${mostListenedSong.artist} - ${mostListenedSong.title}`,
-//     });
-//     main.append(result);
-//   } else {
-//     const message = createElement("p", {
-//       textContent: "No listening data available.",
-//     });
-//     main.append(message);
-//   }
-// }
+  // Handle case where user has no listening data
+  if (listens.length === 0) {
+    const message = document.createElement("p");
+    message.className = "no-data";
+    message.textContent = "This user didn't listen to any songs.";
+    main.appendChild(message);
+    return;
+  }
 
 
+
+  
+  // if (mostListenedSong) {
+  //   const result = createElement("p", {
+  //     textContent: `Most listened song: ${mostListenedSong.artist} - ${mostListenedSong.title}`,
+  //   });
+  //   main.append(result);
+  // } else {
+  //   const message = createElement("p", {
+  //     textContent: "No listening data available.",
+  //   });
+  //   main.append(message);
+  // }
+}
 
 window.onload = initializePage;
