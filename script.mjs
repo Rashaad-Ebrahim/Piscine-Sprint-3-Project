@@ -69,7 +69,7 @@ function initializePage() {
   const footer = document.createElement("footer");
   const footerContent = document.createElement("p");
   footerContent.textContent = "Music Data Project";
-  footer.appendChild(footerContent);
+  footer.append(footerContent);
 
   // Append everything to body
   document.body.append(header);
@@ -98,7 +98,7 @@ function displayUserData(userId) {
 
   // --- QUESTIONS ---
 
-  // Most listened song by count
+  // Most listened to song by count
   const mostListenedSongCount = getMostListened(listens, "song", "count");
   if (mostListenedSongCount) {
     const section = document.createElement("section");
@@ -106,7 +106,7 @@ function displayUserData(userId) {
 
     const question = document.createElement("h3");
     question.className = "question";
-    question.textContent = "What was the user's most often listened to song?";
+    question.textContent = "Most listened to song (count)";
 
     const answer = document.createElement("p");
     answer.className = "answer";
@@ -117,8 +117,26 @@ function displayUserData(userId) {
     questionsContainer.append(section);
   }
 
-  main.append(questionsContainer);
+  // Most listened song by time
+  const mostListenedSongTime = getMostListened(listens, "song", "time");
+  if (mostListenedSongTime) {
+    const section = document.createElement("section");
+    section.className = "question-section";
 
+    const question = document.createElement("h3");
+    question.className = "question";
+    question.textContent = "Most listened to song (time)";
+
+    const answer = document.createElement("p");
+    answer.className = "answer";
+    answer.textContent = `${mostListenedSongTime.artist} - ${mostListenedSongTime.title}`;
+
+    section.appendChild(question);
+    section.appendChild(answer);
+    questionsContainer.appendChild(section);
+  }
+
+  main.append(questionsContainer);
 }
 
 window.onload = initializePage;
